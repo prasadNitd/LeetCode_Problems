@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+ListNode* reverseList(ListNode* head) 
+    {
+        if(!head || !head->next)
+            return head;
+        ListNode *curr = head;
+        ListNode *prev = NULL, *nxt = NULL;
+        while(curr)
+        {
+            nxt = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        head = prev;
+        return head;
+    }

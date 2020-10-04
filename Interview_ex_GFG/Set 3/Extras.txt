@@ -1,0 +1,20 @@
+1. https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique
+
+2. SQL queries:-
+
+Display the count of people staying a city.
+Display the count of unique cities.
+Display the count of people more than 19 age for every city.
+
+3.Write script to download a zip file from a website.
+Copy those to remote machine and extract that zip file in remote machine, Check file permissions.
+Return count number of html and css files in that directory.
+
+4. Scripting :-
+
+Return the count of word present in a file.
+How will you kill one/multiple process in cmd.
+Return PID of a process.
+How will you Change file permissions.
+Return number of empty lines in a file.
+Return 1st word of every line in a file.
