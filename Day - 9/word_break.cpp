@@ -1,50 +1,57 @@
+// TOP DOWN DP with Recusrion + Memoization
+
 #include<bits/stdc++.h>
 using namespace std;
-bool checkstring(string s, vector<string>& dict)
-{
-	int m = dict.size();
+wordBreak(String s, List<String> wordDict) {
+         int[][] dp = new int[s.length()][s.length()];
+        boolean[][] visited = new boolean[s.length()][s.length()];
+        for (int i = 0;i < s.length(); i++)
+             Arrays.fill(dp[i], -1);
 
-	for(int i=0;i<m;i++)
-	{
-		if(dict[i]==s)
-			return true;
-	}
-	return false;
-}
-bool wordBreak(string s, vector<string>& dict)
-{
-	int n = s.length();
-	if(n==0)
-		return true;
+        int val = isPossibleBreak(visited, dp, s, 0, s.length()-1, wordDict);
+        if(val == 1)
+            return true;
+        return false;
+        
+    }
+    
+    private int isPossibleBreak(boolean[][] visited, int[][] dp , String str, int low, int high , List<String> wordDict){
 
-	bool DPtable[1005] = {false};
+        if(low > high)
+            return 1;
 
-	for(int i=1;i<=n;i++)
-	{
-		if(!DPtable[i] && checkstring(s.substr(0, i), dict))
-			DPtable[i] = true;
+        if(wordDict.contains(str.substring(low, high+1)))
+            return 1;
 
-		if(DPtable[i])
-		{
-			if(i==n)
-				return true;
+        if(low == high)
+            return 0;
 
-			for(int j=i+1;j<=n;j++)
-			{
-				if(!DPtable[j] && checkstring(s.substr(i, j-i), dict))
-					DPtable[j] = true;
+        if(dp[low][high] != -1)
+            return dp[low][high];
 
-				if(j==n && DPtable[j])
-					return true;
-			}
-		}
-	}
-	return false;
-}
+        if(visited[low][high]){
+            if(wordDict.contains(str.substring(low, high+1)))
+                return 1;
+            return 0;
+        }
+
+        visited[low][high] = true;
+        int val =0;
+        for (int i =low; i <= high; i++){
+            int p1 = isPossibleBreak(visited, dp, str, low, i, wordDict);
+            int p2 = isPossibleBreak(visited, dp, str, i+1, high, wordDict);
+            if(p1 == 1 && p2 == 1){
+                val = 1;
+                break;
+            }
+        }
+        dp[low][high] = val;
+        return dp[low][high];
+    }
 int main()
 {
-	string str = "ilikesamsung";
-	vector<string> dict = {"mobile","samsung","sam","sung","man","mango", 
+    string str = "ilikesamsung";
+    vector<string> dict = {"mobile","samsung","sam","sung","man","mango", 
                            "icecream","and","go","i","like","ice","cream"};
-	cout << (wordBreak(str, dict)?"Yes\n":"No\n");
+    cout << (wordBreak(str, dict)?"Yes\n":"No\n");
 }
