@@ -1,6 +1,8 @@
-// Count of substrings of length K with exactly K distinct characters
+
 
 // Given a string str of lowercase alphabets and an integer K, the task is to count all substrings of length K which have exactly K distinct characters.
+
+// Count of substrings of length K with exactly K distinct characters
 
 /*
 Example:
@@ -22,47 +24,82 @@ aba : 2 distinct characters
 bab : 2 distinct characters
 No substrings of length 3 exists with exactly 3 distinct characters
 */
+// C++ program to find the 
+// count of k length substrings 
+// with k distinct characters 
+// using sliding window 
+#include <bits/stdc++.h> 
+using namespace std; 
 
-#include<bits/stdc++.h>
-using namespace std;
+// Function to return the 
+// required count of substrings 
+int countSubstrings(string str, int K) 
+{ 
+    int N = str.size(); 
+    // Store the count 
+    int answer = 0; 
 
-int countSubstrings(string str, int k)
-{
-	int n = str.length(), count = 0, distinctCount = 0, j = 0;
-	int freq[26] = {0};
+    // Store the count of 
+    // distinct characters 
+    // in every window 
+    unordered_map<char, int> map; 
 
-	for(int i=0;i<k;i++)
-	{
-		freq[str[i]-'a']++;
-	}
-	for(int i=0;i<26;i++)
-	{
-		if(freq[i])
-			distinctCount++;
-	}
-	if(distinctCount==k)
-		count++;
-	for(int i=k;i<n;i++)
-	{
-		if(freq[str[j]-'a']==1)
-			distinctCount--;
-		freq[str[j]-'a']--;
-		if(freq[str[i]-'a']==0)
-			distinctCount++;
-		freq[str[i]-'a']++;
-		if(distinctCount==k)
-			count++;
-		j++;
-	}
-	return count;
-}
+    // Store the frequency of 
+    // the first K length substring 
+    for (int i = 0; i < K; i++) { 
 
-int main()
-{
-	string str;
-	cin >> str;
-	int k;
-	cin >> k;
-	cout << countSubstrings(str, k) << endl;
-	return 0;
-}
+        // Increase frequency of 
+        // i-th character 
+        map[str[i]]++; 
+    } 
+
+    // If K distinct characters 
+    // exist 
+    if (map.size() == K) 
+        answer++; 
+
+    // Traverse the rest of the 
+    // substring 
+    for (int i = K; i < N; i++) { 
+
+        // Increase the frequency 
+        // of the last character 
+        // of the current substring 
+        map[str[i]]++; 
+        // Decrease the frequency 
+        // of the first character 
+        // of the previous substring 
+        map[str[i - K]]--; 
+
+        // If the character is not present 
+        // in the current substring 
+        if (map[str[i - K]] == 0) { 
+            map.erase(str[i - K]); 
+        } 
+
+        // If the count of distinct 
+        // characters is 0 
+        if (map.size() == K) { 
+            answer++; 
+        } 
+    } 
+
+    // Return the count 
+    return answer; 
+} 
+
+// Driver code 
+int main() 
+{ 
+    // string str 
+    string str = "aabcdabbcdc"; 
+
+    // integer K 
+    int K = 3; 
+
+    // Print the count of K length 
+    // substrings with k distinct characters 
+    cout << countSubstrings(str, K) << endl; 
+
+    return 0; 
+} 
