@@ -1,46 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define MAX 1000
-string urlifyString(char str[])
+string create_urlify_string(char str[])
 {
-	int spaces =0, i;
-	for(i=0;str[i];i++)
-	{
-		if(str[i]==' ')
-			spaces++;
-	}
-	while(str[i-1]==' ')
-	{
-		spaces--;
-		i--;
-	}
-	int new_length = i + spaces*2+1;
+    int white_spaces=0, idx;
+    for(idx=0;str[idx];idx++)
+    {
+        if(str[idx]==' ')
+            white_spaces++;
+    }
+    while(str[idx-1]==' ')
+    {
+        white_spaces--;
+        idx--;
+    }
+    int length = idx + white_spaces*2+1;
 
-	if(new_length > MAX)
-		return "";
-	int index = new_length - 1;
-	str[index--] = '\0';
-	for(int j=i-1;j>=0;j--)
-	{
-		if(str[j]==' ')
-		{
-			str[index] = '0';
-			str[index-1] = '2';
-			str[index-2] = '%';
-			index -= 3;
-		}
-		else
-		{
-			str[index--] = str[j];
-		}
-	}
-	return str;
+    if(length > MAX)
+        return "";
+    int index = length - 1;
+    str[index--] = '\0';
+    for(int j=idx-1;j>=0;j--)
+    {
+        if(str[j]==' ')
+        {
+            str[index] = '7';
+            str[index-1] = '0';
+            str[index-2] = '%';
+            index -= 3;
+        }
+        else
+        {
+            str[index--] = str[j];
+        }
+    }
+    return str;
 }
 int main()
 {
-	char s[MAX] = "Myself avinitd          ";
-	//cin >> s;
+    char str[MAX] = "This is my 2nd contribution at hactoberfest as ezaz039          ";
+    //cin >> s;
 
-	cout << urlifyString(s) << endl;
-	return 0;
+    cout << create_urlify_string(str) << endl;
+    return 0;
 }
