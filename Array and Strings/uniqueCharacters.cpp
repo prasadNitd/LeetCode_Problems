@@ -2,14 +2,13 @@
 using namespace std;
 bool uniqueCharacters(string str)
 {
-	int bit = 0;
-
-	for(int i=0;i<str.length();i++)
+	unordered_map<char,int> ump;
+	for(auto s:str)
 	{
-		int val = str[i] - 'a';
-		if(bit & (1 << val))
+		if(ump.find(s)!=ump.end())
 			return false;
-		bit |= (1 << val);
+		else
+			ump.insert({s,1});
 	}
 	return true;
 }
@@ -19,8 +18,8 @@ int main()
 	cin >> str;
 
 	if(uniqueCharacters(str))
-		cout << 1 << endl;
+		cout << "The string contain all unique characteres:: " << endl;
 	else
-		cout << 0 << endl;
+		cout << "The string doesn't contain all unique characteres:: " << endl;
 	return 0;
 }
