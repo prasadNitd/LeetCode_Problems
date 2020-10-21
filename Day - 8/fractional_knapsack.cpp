@@ -1,51 +1,44 @@
 #include<bits/stdc++.h>
 using namespace std;
-struct product
+bool compareItems(tuple<int,int> a, tuple<int,int> b)
 {
-	int value, weight;
-
-	// Constructor
-	//product(int value, int weight): value(value), weight(weight){}
-};
-
-bool compareItems(product a, product b)
-{
-	double r1 = (double)a.value/a.weight;
-	double r2 = (double)b.value/b.weight;
+	double r1 = (double)get<0>(a)/get<1>(a);
+	double r2 = (double)get<0>(b)/get<1>(b);
 
 	return r1 > r2;
 }
-
-int fractionalKnapsack(product arr[], int n, int capacity)
+int fractionalKnapsack(vector<tuple<int,int>> product, tuple<int,int> cnt)
 {
-	sort(arr, arr+n, compareItems);
-	int ans = 0;
-	for(int i=0;i<n;i++)
+	sort(product.begin(),product.end(),compareItems);
+	tuple<int,int,int> ans;
+	for(get<1>(ans)=0;get<1>(ans)<get<0>(cnt);get<1>(ans)++)
 	{
-		if(arr[i].weight<=capacity)
+		if(get<1>(product[get<1>(ans)])<=get<0>(cnt))
 		{
-			ans += arr[i].value;
-			capacity -= arr[i].weight;
+			get<0>(ans) += get<0>(product[get<1>(ans)]);
+			get<0>(cnt) -= get<1>(product[get<1>(ans)]);
 		}
 		else
 		{
-			int temp = capacity*arr[i].value;
-			ans += (temp/arr[i].weight);
+			get<2>(ans) = get<1>(cnt)*get<0>(product[get<1>(ans)]);
+			get<0>(ans) += (get<0>(ans)/get<1>(product[get<1>(ans)]));
 			break;
 		}
 	}
-	return ans;
+	return get<0>(ans);
 }
 
 int main()
 {
-	int capacity, n;
-	cin >> capacity >> n;
-	product arr[n];
-	for(int i=0;i<n;i++)
+	tuple<int,int> cnt;
+	cin >> get<0>(cnt) >> get<1>(cnt);
+	vector<tuple<int,int>> product;
+	for(int i=0;i<get<0>(cnt);i++)
 	{
-		cin >> arr[i].value >> arr[i].weight;
+		tuple<int,int> v;
+		cin>>get<0>(v)>>get<1>(v);
+		product.push_back({get<0>(v),get<1>(v)});
 	}
 
-	cout << fractionalKnapsack(arr, n, capacity) << endl;
+	cout << fractionalKnapsack(product,cnt) << endl;
 }
